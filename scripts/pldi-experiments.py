@@ -130,7 +130,7 @@ def traffic_matrix(x, ports, f):
 
 def compile_all(directory, out):
     files = os.listdir(directory)
-    files = [f for f in files if is_tkat(f)]
+    files = sorted([f for f in files if is_tkat(f)])
     of = open(out, 'w')
     of.write(header.replace("$", "No Query"))
     of.write(header.replace("$", "Congested"))
@@ -283,7 +283,7 @@ def zoo_create_tkat():
     if not (os.path.isdir(zoo_dir)):
         os.mkdir(zoo_dir)
     files = os.listdir(zoo_data_dir)
-    files = [f for f in files if is_gml(f)]
+    files = sorted([f for f in files if is_gml(f)])
     print "Generating Temporal NetKAT files..."
     for fname in files: 
         f = open(zoo_data_dir + fname, 'rw')
