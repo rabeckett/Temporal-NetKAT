@@ -1,11 +1,3 @@
-(*******************************************************************)
-(*                                                                 *)
-(*                 Simple parsing from input                       *)
-(*                                                                 *)
-(*******************************************************************)
-
-open Syntax
-
 val read_from_in: in_channel -> Syntax.tterm 
 (** Read a Temporal NetKAT term from an input stream *)
 
