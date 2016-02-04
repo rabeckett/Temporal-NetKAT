@@ -1,9 +1,3 @@
-(*******************************************************************)
-(*                                                                 *)
-(*            A simple bidirectional map for renaming              *)
-(*                                                                 *)
-(*******************************************************************)
-
 module type S = sig 
 	type elt 
 	type t 
@@ -37,7 +31,3 @@ module Make(O: Set.OrderedType) = struct
 		    m.val_map <- Ptmap.add m.count k m.val_map;
 		    m.count
 end
-
-
-
-

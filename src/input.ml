@@ -1,11 +1,3 @@
-(*******************************************************************)
-(*                                                                 *)
-(*                 Simple parsing from input                       *)
-(*                                                                 *)
-(*******************************************************************)
-
-open Syntax
-
 let read lexbuf = 
   let get_info () = 
     let curr = lexbuf.Lexing.lex_curr_p in

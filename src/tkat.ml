@@ -1,7 +1,4 @@
 open Common
-open Syntax
-open Input
-
 
 let test = ref false
 let stats = ref false
@@ -10,10 +7,10 @@ let out_file = ref None
 let usage = "Usage: tkat [options]"
 
 let params = [
-    ("--in", Arg.String (fun s -> in_file := Some s), "  Input file name (default stdin)");
-    ("--out", Arg.String (fun s -> out_file := Some s), "  Output file name (default none)");
-    ("--test", Arg.Unit (fun _ -> test := true), "  Runs unit tests" );
-    ("--stats", Arg.Unit (fun n -> stats := true), "  Output performance statistics as csv to stdout");
+    ("-in", Arg.String (fun s -> in_file := Some s), "  Input file name (default stdin)");
+    ("-out", Arg.String (fun s -> out_file := Some s), "  Output file name (default none)");
+    ("-test", Arg.Unit (fun _ -> test := true), "  Runs unit tests" );
+    ("-stats", Arg.Unit (fun n -> stats := true), "  Output performance statistics as csv to stdout");
   ]
 
 let get_time tbl str = 

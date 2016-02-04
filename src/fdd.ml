@@ -6,7 +6,6 @@
 (*******************************************************************)
 
 open Common
-open Profile
 open Syntax
 open Hashcons
 
