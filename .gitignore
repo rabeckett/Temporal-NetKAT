@@ -21,3 +21,8 @@ setup.log
 
 # ds_store files
 **/.DS_Store
+
+# script generated directories
+scripts/output/
+scripts/stanford/
+scripts/zoo/

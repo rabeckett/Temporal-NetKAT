@@ -22,7 +22,7 @@ zoo_data_dir = direct + "/../data/zoo/"
 zoo_dir = direct + "/zoo/"
 stanford_data_dir = direct + "/../data/stanford/"
 stanford_dir = direct + "/stanford/"
-
+output_dir = direct + "/output/"
 
 def is_tkat(f):
     return len(f) > 5 and f[-5:] == ".tkat"
@@ -475,6 +475,10 @@ def stanford_create_tkat():
 def stanford_compile_all():
     compile_all(stanford_dir, direct + "/output/stanford.csv")
 
+def make_dir(folder):
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+
 
 # Main program
 
@@ -485,9 +489,13 @@ arg = sys.argv[1]
 compile_s = (arg == "stanford" or arg == "all")
 compile_z = (arg == "zoo" or arg == "all")
 
+make_dir(output_dir)
+
 if compile_s:
+    make_dir(stanford_dir)
     stanford_create_tkat()
 if compile_z:
+    make_dir(zoo_dir)
     zoo_create_tkat()
 if compile_s:
     stanford_compile_all()
