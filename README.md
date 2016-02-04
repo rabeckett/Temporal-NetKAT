@@ -12,11 +12,11 @@ Then run `make` to build the source. The main exectuable will be: `tkat.native`
 # Usage
 
 Usage: tkat [options]
-  * \-\-in   Input file name (default stdin)
-  * \-\-out   Output file name (default none)
-  * \-\-test   Runs unit tests
-  * \-\-stats   Output performance statistics as csv to stdout
-  * \-\-help  Display this list of options
+  * \-in   Input file name (default stdin)
+  * \-out   Output file name (default none)
+  * \-test   Runs unit tests
+  * \-stats   Output performance statistics as csv to stdout
+  * \-help  Display this list of options
 
 `echo "sw<-A;dup;last(sw=A)" | ./tkat.native --out rules.txt`
 

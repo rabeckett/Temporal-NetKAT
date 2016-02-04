@@ -14,7 +14,7 @@ TRAFFIC_MATRIX = 6
 
 direct = os.path.dirname(os.path.realpath(__file__))
 
-cmd = [direct + "/../tkat.native", "--stats", "--in"]
+cmd = [direct + "/../tkat.native", "-stats", "-in"]
 
 header = "Name[$], KAT size[$], Temp size[$], Num Queries[$], Rules[$], Rules opt1[$], Rules opt2[$], Tags[$], Time(Total)[$], Time(Temporal Automaton)[$], Time (Policy Automaton)[$], Time (Determinization)[$], Time (Minimize)[$], Time (Intersection)[$], Time (Extraction)[$], Time (Rule Gen)[$], "
 
