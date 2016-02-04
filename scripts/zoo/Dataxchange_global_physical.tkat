@@ -1,0 +1,102 @@
+query = always(
+	sw=0 or 
+	sw=1 or 
+	sw=2 or 
+	sw=3 or 
+	sw=4 or 
+	sw=5 or 
+	drop),
+
+pol = 
+	sw=1;(
+		dst=0;pt<-1 +
+		dst=2;pt<-8 +
+		dst=3;pt<-10 +
+		dst=4;pt<-10 +
+		dst=5;pt<-12 +
+		drop) + 
+
+	sw=0;(
+		dst=1;pt<-0 +
+		dst=2;pt<-2 +
+		dst=3;pt<-4 +
+		dst=4;pt<-4 +
+		dst=5;pt<-6 +
+		drop) + 
+
+	sw=3;(
+		dst=0;pt<-18 +
+		dst=1;pt<-18 +
+		dst=2;pt<-18 +
+		dst=4;pt<-18 +
+		dst=5;pt<-18 +
+		drop) + 
+
+	sw=2;(
+		dst=0;pt<-3 +
+		dst=1;pt<-9 +
+		dst=3;pt<-14 +
+		dst=4;pt<-14 +
+		dst=5;pt<-16 +
+		drop) + 
+
+	sw=5;(
+		dst=0;pt<-7 +
+		dst=1;pt<-13 +
+		dst=2;pt<-17 +
+		dst=3;pt<-21 +
+		dst=4;pt<-21 +
+		drop) + 
+
+	sw=4;(
+		dst=0;pt<-5 +
+		dst=1;pt<-11 +
+		dst=2;pt<-15 +
+		dst=3;pt<-19 +
+		dst=5;pt<-20 +
+		drop) + 
+	query,
+
+topo = 
+	sw=1;(
+		pt=1;sw<-0;pt<-0 +
+		pt=8;sw<-2;pt<-9 +
+		pt=10;sw<-4;pt<-11 +
+		pt=12;sw<-5;pt<-13 +
+		drop) + 
+
+	sw=0;(
+		pt=0;sw<-1;pt<-1 +
+		pt=2;sw<-2;pt<-3 +
+		pt=4;sw<-4;pt<-5 +
+		pt=6;sw<-5;pt<-7 +
+		drop) + 
+
+	sw=3;(
+		pt=18;sw<-4;pt<-19 +
+		drop) + 
+
+	sw=2;(
+		pt=3;sw<-0;pt<-2 +
+		pt=9;sw<-1;pt<-8 +
+		pt=14;sw<-4;pt<-15 +
+		pt=16;sw<-5;pt<-17 +
+		drop) + 
+
+	sw=5;(
+		pt=7;sw<-0;pt<-6 +
+		pt=13;sw<-1;pt<-12 +
+		pt=17;sw<-2;pt<-16 +
+		pt=21;sw<-4;pt<-20 +
+		drop) + 
+
+	sw=4;(
+		pt=5;sw<-0;pt<-4 +
+		pt=11;sw<-1;pt<-10 +
+		pt=15;sw<-2;pt<-14 +
+		pt=19;sw<-3;pt<-18 +
+		pt=20;sw<-5;pt<-21 +
+		drop) + 
+	drop,
+
+(pol;dup;topo;dup)*;pol

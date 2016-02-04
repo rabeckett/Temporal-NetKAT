@@ -1,0 +1,637 @@
+query = always(
+	sw=0 or 
+	sw=1 or 
+	sw=2 or 
+	sw=3 or 
+	sw=4 or 
+	sw=5 or 
+	sw=6 or 
+	sw=7 or 
+	sw=8 or 
+	sw=9 or 
+	sw=10 or 
+	sw=11 or 
+	sw=12 or 
+	sw=13 or 
+	sw=14 or 
+	sw=15 or 
+	sw=16 or 
+	sw=17 or 
+	sw=18 or 
+	sw=19 or 
+	sw=20 or 
+	drop),
+
+pol = 
+	sw=11;(
+		dst=0;pt<-13 +
+		dst=1;pt<-43 +
+		dst=2;pt<-13 +
+		dst=3;pt<-13 +
+		dst=4;pt<-13 +
+		dst=5;pt<-13 +
+		dst=6;pt<-13 +
+		dst=7;pt<-43 +
+		dst=8;pt<-43 +
+		dst=9;pt<-43 +
+		dst=10;pt<-43 +
+		dst=12;pt<-13 +
+		dst=13;pt<-43 +
+		dst=14;pt<-43 +
+		dst=15;pt<-13 +
+		dst=16;pt<-13 +
+		dst=17;pt<-13 +
+		dst=18;pt<-43 +
+		dst=19;pt<-43 +
+		dst=20;pt<-43 +
+		drop) + 
+
+	sw=10;(
+		dst=0;pt<-42 +
+		dst=1;pt<-44 +
+		dst=2;pt<-42 +
+		dst=3;pt<-42 +
+		dst=4;pt<-44 +
+		dst=5;pt<-44 +
+		dst=6;pt<-44 +
+		dst=7;pt<-44 +
+		dst=8;pt<-44 +
+		dst=9;pt<-44 +
+		dst=11;pt<-42 +
+		dst=12;pt<-44 +
+		dst=13;pt<-44 +
+		dst=14;pt<-44 +
+		dst=15;pt<-44 +
+		dst=16;pt<-44 +
+		dst=17;pt<-44 +
+		dst=18;pt<-44 +
+		dst=19;pt<-44 +
+		dst=20;pt<-44 +
+		drop) + 
+
+	sw=13;(
+		dst=0;pt<-46 +
+		dst=1;pt<-46 +
+		dst=2;pt<-46 +
+		dst=3;pt<-46 +
+		dst=4;pt<-46 +
+		dst=5;pt<-46 +
+		dst=6;pt<-46 +
+		dst=7;pt<-46 +
+		dst=8;pt<-46 +
+		dst=9;pt<-46 +
+		dst=10;pt<-46 +
+		dst=11;pt<-46 +
+		dst=12;pt<-46 +
+		dst=14;pt<-48 +
+		dst=15;pt<-48 +
+		dst=16;pt<-48 +
+		dst=17;pt<-46 +
+		dst=18;pt<-46 +
+		dst=19;pt<-46 +
+		dst=20;pt<-46 +
+		drop) + 
+
+	sw=12;(
+		dst=0;pt<-25 +
+		dst=1;pt<-7 +
+		dst=2;pt<-25 +
+		dst=3;pt<-25 +
+		dst=4;pt<-25 +
+		dst=5;pt<-25 +
+		dst=6;pt<-25 +
+		dst=7;pt<-7 +
+		dst=8;pt<-7 +
+		dst=9;pt<-7 +
+		dst=10;pt<-7 +
+		dst=11;pt<-25 +
+		dst=13;pt<-7 +
+		dst=14;pt<-7 +
+		dst=15;pt<-25 +
+		dst=16;pt<-25 +
+		dst=17;pt<-25 +
+		dst=18;pt<-7 +
+		dst=19;pt<-7 +
+		dst=20;pt<-7 +
+		drop) + 
+
+	sw=15;(
+		dst=0;pt<-54 +
+		dst=1;pt<-53 +
+		dst=2;pt<-54 +
+		dst=3;pt<-54 +
+		dst=4;pt<-54 +
+		dst=5;pt<-54 +
+		dst=6;pt<-54 +
+		dst=7;pt<-53 +
+		dst=8;pt<-53 +
+		dst=9;pt<-53 +
+		dst=10;pt<-53 +
+		dst=11;pt<-54 +
+		dst=12;pt<-54 +
+		dst=13;pt<-53 +
+		dst=14;pt<-53 +
+		dst=16;pt<-54 +
+		dst=17;pt<-54 +
+		dst=18;pt<-53 +
+		dst=19;pt<-53 +
+		dst=20;pt<-53 +
+		drop) + 
+
+	sw=14;(
+		dst=0;pt<-49 +
+		dst=1;pt<-49 +
+		dst=2;pt<-49 +
+		dst=3;pt<-49 +
+		dst=4;pt<-49 +
+		dst=5;pt<-49 +
+		dst=6;pt<-49 +
+		dst=7;pt<-49 +
+		dst=8;pt<-49 +
+		dst=9;pt<-49 +
+		dst=10;pt<-49 +
+		dst=11;pt<-49 +
+		dst=12;pt<-49 +
+		dst=13;pt<-49 +
+		dst=15;pt<-52 +
+		dst=16;pt<-52 +
+		dst=17;pt<-52 +
+		dst=18;pt<-49 +
+		dst=19;pt<-49 +
+		dst=20;pt<-49 +
+		drop) + 
+
+	sw=17;(
+		dst=0;pt<-23 +
+		dst=1;pt<-23 +
+		dst=2;pt<-23 +
+		dst=3;pt<-23 +
+		dst=4;pt<-23 +
+		dst=5;pt<-23 +
+		dst=6;pt<-23 +
+		dst=7;pt<-23 +
+		dst=8;pt<-23 +
+		dst=9;pt<-23 +
+		dst=10;pt<-23 +
+		dst=11;pt<-23 +
+		dst=12;pt<-23 +
+		dst=13;pt<-23 +
+		dst=14;pt<-59 +
+		dst=15;pt<-59 +
+		dst=16;pt<-59 +
+		dst=18;pt<-23 +
+		dst=19;pt<-23 +
+		dst=20;pt<-23 +
+		drop) + 
+
+	sw=16;(
+		dst=0;pt<-58 +
+		dst=1;pt<-58 +
+		dst=2;pt<-58 +
+		dst=3;pt<-58 +
+		dst=4;pt<-58 +
+		dst=5;pt<-58 +
+		dst=6;pt<-58 +
+		dst=7;pt<-58 +
+		dst=8;pt<-58 +
+		dst=9;pt<-58 +
+		dst=10;pt<-58 +
+		dst=11;pt<-58 +
+		dst=12;pt<-58 +
+		dst=13;pt<-55 +
+		dst=14;pt<-55 +
+		dst=15;pt<-55 +
+		dst=17;pt<-58 +
+		dst=18;pt<-55 +
+		dst=19;pt<-58 +
+		dst=20;pt<-58 +
+		drop) + 
+
+	sw=19;(
+		dst=0;pt<-37 +
+		dst=1;pt<-37 +
+		dst=2;pt<-60 +
+		dst=3;pt<-37 +
+		dst=4;pt<-37 +
+		dst=5;pt<-37 +
+		dst=6;pt<-37 +
+		dst=7;pt<-37 +
+		dst=8;pt<-37 +
+		dst=9;pt<-37 +
+		dst=10;pt<-60 +
+		dst=11;pt<-60 +
+		dst=12;pt<-37 +
+		dst=13;pt<-37 +
+		dst=14;pt<-37 +
+		dst=15;pt<-37 +
+		dst=16;pt<-37 +
+		dst=17;pt<-37 +
+		dst=18;pt<-37 +
+		dst=20;pt<-60 +
+		drop) + 
+
+	sw=18;(
+		dst=0;pt<-35 +
+		dst=1;pt<-35 +
+		dst=2;pt<-35 +
+		dst=3;pt<-35 +
+		dst=4;pt<-35 +
+		dst=5;pt<-35 +
+		dst=6;pt<-35 +
+		dst=7;pt<-35 +
+		dst=8;pt<-35 +
+		dst=9;pt<-35 +
+		dst=10;pt<-35 +
+		dst=11;pt<-35 +
+		dst=12;pt<-35 +
+		dst=13;pt<-47 +
+		dst=14;pt<-47 +
+		dst=15;pt<-47 +
+		dst=16;pt<-47 +
+		dst=17;pt<-35 +
+		dst=19;pt<-35 +
+		dst=20;pt<-35 +
+		drop) + 
+
+	sw=20;(
+		dst=0;pt<-61 +
+		dst=1;pt<-61 +
+		dst=2;pt<-45 +
+		dst=3;pt<-45 +
+		dst=4;pt<-61 +
+		dst=5;pt<-61 +
+		dst=6;pt<-61 +
+		dst=7;pt<-61 +
+		dst=8;pt<-61 +
+		dst=9;pt<-61 +
+		dst=10;pt<-45 +
+		dst=11;pt<-45 +
+		dst=12;pt<-61 +
+		dst=13;pt<-61 +
+		dst=14;pt<-61 +
+		dst=15;pt<-61 +
+		dst=16;pt<-61 +
+		dst=17;pt<-61 +
+		dst=18;pt<-61 +
+		dst=19;pt<-61 +
+		drop) + 
+
+	sw=1;(
+		dst=0;pt<-6 +
+		dst=2;pt<-6 +
+		dst=3;pt<-6 +
+		dst=4;pt<-6 +
+		dst=5;pt<-8 +
+		dst=6;pt<-6 +
+		dst=7;pt<-8 +
+		dst=8;pt<-8 +
+		dst=9;pt<-8 +
+		dst=10;pt<-8 +
+		dst=11;pt<-8 +
+		dst=12;pt<-6 +
+		dst=13;pt<-8 +
+		dst=14;pt<-8 +
+		dst=15;pt<-8 +
+		dst=16;pt<-6 +
+		dst=17;pt<-6 +
+		dst=18;pt<-8 +
+		dst=19;pt<-8 +
+		dst=20;pt<-8 +
+		drop) + 
+
+	sw=0;(
+		dst=1;pt<-4 +
+		dst=2;pt<-2 +
+		dst=3;pt<-2 +
+		dst=4;pt<-4 +
+		dst=5;pt<-4 +
+		dst=6;pt<-4 +
+		dst=7;pt<-4 +
+		dst=8;pt<-4 +
+		dst=9;pt<-4 +
+		dst=10;pt<-2 +
+		dst=11;pt<-2 +
+		dst=12;pt<-4 +
+		dst=13;pt<-4 +
+		dst=14;pt<-4 +
+		dst=15;pt<-4 +
+		dst=16;pt<-4 +
+		dst=17;pt<-4 +
+		dst=18;pt<-4 +
+		dst=19;pt<-4 +
+		dst=20;pt<-4 +
+		drop) + 
+
+	sw=3;(
+		dst=0;pt<-3 +
+		dst=1;pt<-3 +
+		dst=2;pt<-11 +
+		dst=4;pt<-3 +
+		dst=5;pt<-3 +
+		dst=6;pt<-3 +
+		dst=7;pt<-3 +
+		dst=8;pt<-3 +
+		dst=9;pt<-3 +
+		dst=10;pt<-11 +
+		dst=11;pt<-11 +
+		dst=12;pt<-3 +
+		dst=13;pt<-3 +
+		dst=14;pt<-3 +
+		dst=15;pt<-3 +
+		dst=16;pt<-3 +
+		dst=17;pt<-3 +
+		dst=18;pt<-3 +
+		dst=19;pt<-3 +
+		dst=20;pt<-11 +
+		drop) + 
+
+	sw=2;(
+		dst=0;pt<-10 +
+		dst=1;pt<-10 +
+		dst=3;pt<-10 +
+		dst=4;pt<-10 +
+		dst=5;pt<-10 +
+		dst=6;pt<-10 +
+		dst=7;pt<-10 +
+		dst=8;pt<-10 +
+		dst=9;pt<-10 +
+		dst=10;pt<-12 +
+		dst=11;pt<-12 +
+		dst=12;pt<-10 +
+		dst=13;pt<-10 +
+		dst=14;pt<-10 +
+		dst=15;pt<-10 +
+		dst=16;pt<-10 +
+		dst=17;pt<-10 +
+		dst=18;pt<-10 +
+		dst=19;pt<-12 +
+		dst=20;pt<-12 +
+		drop) + 
+
+	sw=5;(
+		dst=0;pt<-17 +
+		dst=1;pt<-20 +
+		dst=2;pt<-17 +
+		dst=3;pt<-17 +
+		dst=4;pt<-17 +
+		dst=6;pt<-17 +
+		dst=7;pt<-20 +
+		dst=8;pt<-20 +
+		dst=9;pt<-20 +
+		dst=10;pt<-20 +
+		dst=11;pt<-17 +
+		dst=12;pt<-17 +
+		dst=13;pt<-20 +
+		dst=14;pt<-20 +
+		dst=15;pt<-17 +
+		dst=16;pt<-17 +
+		dst=17;pt<-17 +
+		dst=18;pt<-20 +
+		dst=19;pt<-20 +
+		dst=20;pt<-20 +
+		drop) + 
+
+	sw=4;(
+		dst=0;pt<-18 +
+		dst=1;pt<-18 +
+		dst=2;pt<-18 +
+		dst=3;pt<-18 +
+		dst=5;pt<-16 +
+		dst=6;pt<-18 +
+		dst=7;pt<-18 +
+		dst=8;pt<-16 +
+		dst=9;pt<-16 +
+		dst=10;pt<-18 +
+		dst=11;pt<-18 +
+		dst=12;pt<-18 +
+		dst=13;pt<-18 +
+		dst=14;pt<-18 +
+		dst=15;pt<-18 +
+		dst=16;pt<-18 +
+		dst=17;pt<-18 +
+		dst=18;pt<-18 +
+		dst=19;pt<-18 +
+		dst=20;pt<-18 +
+		drop) + 
+
+	sw=7;(
+		dst=0;pt<-33 +
+		dst=1;pt<-9 +
+		dst=2;pt<-33 +
+		dst=3;pt<-33 +
+		dst=4;pt<-33 +
+		dst=5;pt<-38 +
+		dst=6;pt<-33 +
+		dst=8;pt<-38 +
+		dst=9;pt<-38 +
+		dst=10;pt<-36 +
+		dst=11;pt<-36 +
+		dst=12;pt<-9 +
+		dst=13;pt<-34 +
+		dst=14;pt<-34 +
+		dst=15;pt<-34 +
+		dst=16;pt<-33 +
+		dst=17;pt<-33 +
+		dst=18;pt<-34 +
+		dst=19;pt<-36 +
+		dst=20;pt<-36 +
+		drop) + 
+
+	sw=6;(
+		dst=0;pt<-5 +
+		dst=1;pt<-24 +
+		dst=2;pt<-5 +
+		dst=3;pt<-5 +
+		dst=4;pt<-19 +
+		dst=5;pt<-19 +
+		dst=7;pt<-32 +
+		dst=8;pt<-32 +
+		dst=9;pt<-32 +
+		dst=10;pt<-32 +
+		dst=11;pt<-5 +
+		dst=12;pt<-24 +
+		dst=13;pt<-32 +
+		dst=14;pt<-32 +
+		dst=15;pt<-22 +
+		dst=16;pt<-22 +
+		dst=17;pt<-22 +
+		dst=18;pt<-32 +
+		dst=19;pt<-32 +
+		dst=20;pt<-32 +
+		drop) + 
+
+	sw=9;(
+		dst=0;pt<-39 +
+		dst=1;pt<-39 +
+		dst=2;pt<-39 +
+		dst=3;pt<-39 +
+		dst=4;pt<-41 +
+		dst=5;pt<-41 +
+		dst=6;pt<-39 +
+		dst=7;pt<-39 +
+		dst=8;pt<-41 +
+		dst=10;pt<-39 +
+		dst=11;pt<-39 +
+		dst=12;pt<-39 +
+		dst=13;pt<-39 +
+		dst=14;pt<-39 +
+		dst=15;pt<-39 +
+		dst=16;pt<-39 +
+		dst=17;pt<-39 +
+		dst=18;pt<-39 +
+		dst=19;pt<-39 +
+		dst=20;pt<-39 +
+		drop) + 
+
+	sw=8;(
+		dst=0;pt<-40 +
+		dst=1;pt<-40 +
+		dst=2;pt<-40 +
+		dst=3;pt<-40 +
+		dst=4;pt<-21 +
+		dst=5;pt<-21 +
+		dst=6;pt<-40 +
+		dst=7;pt<-40 +
+		dst=9;pt<-40 +
+		dst=10;pt<-40 +
+		dst=11;pt<-40 +
+		dst=12;pt<-40 +
+		dst=13;pt<-40 +
+		dst=14;pt<-40 +
+		dst=15;pt<-40 +
+		dst=16;pt<-40 +
+		dst=17;pt<-40 +
+		dst=18;pt<-40 +
+		dst=19;pt<-40 +
+		dst=20;pt<-40 +
+		drop) + 
+	query,
+
+topo = 
+	sw=11;(
+		pt=13;sw<-2;pt<-12 +
+		pt=43;sw<-10;pt<-42 +
+		drop) + 
+
+	sw=10;(
+		pt=42;sw<-11;pt<-43 +
+		pt=44;sw<-20;pt<-45 +
+		drop) + 
+
+	sw=13;(
+		pt=46;sw<-18;pt<-47 +
+		pt=48;sw<-14;pt<-49 +
+		drop) + 
+
+	sw=12;(
+		pt=7;sw<-1;pt<-6 +
+		pt=25;sw<-6;pt<-24 +
+		drop) + 
+
+	sw=20;(
+		pt=45;sw<-10;pt<-44 +
+		pt=61;sw<-19;pt<-60 +
+		drop) + 
+
+	sw=14;(
+		pt=49;sw<-13;pt<-48 +
+		pt=52;sw<-15;pt<-53 +
+		pt=52;sw<-15;pt<-53 +
+		drop) + 
+
+	sw=17;(
+		pt=23;sw<-6;pt<-22 +
+		pt=59;sw<-16;pt<-58 +
+		pt=59;sw<-16;pt<-58 +
+		drop) + 
+
+	sw=16;(
+		pt=55;sw<-15;pt<-54 +
+		pt=58;sw<-17;pt<-59 +
+		pt=58;sw<-17;pt<-59 +
+		drop) + 
+
+	sw=19;(
+		pt=37;sw<-7;pt<-36 +
+		pt=60;sw<-20;pt<-61 +
+		drop) + 
+
+	sw=18;(
+		pt=35;sw<-7;pt<-34 +
+		pt=47;sw<-13;pt<-46 +
+		drop) + 
+
+	sw=15;(
+		pt=53;sw<-14;pt<-52 +
+		pt=53;sw<-14;pt<-52 +
+		pt=54;sw<-16;pt<-55 +
+		drop) + 
+
+	sw=1;(
+		pt=6;sw<-12;pt<-7 +
+		pt=8;sw<-7;pt<-9 +
+		drop) + 
+
+	sw=0;(
+		pt=2;sw<-3;pt<-3 +
+		pt=2;sw<-3;pt<-3 +
+		pt=4;sw<-6;pt<-5 +
+		drop) + 
+
+	sw=3;(
+		pt=3;sw<-0;pt<-2 +
+		pt=3;sw<-0;pt<-2 +
+		pt=11;sw<-2;pt<-10 +
+		drop) + 
+
+	sw=2;(
+		pt=10;sw<-3;pt<-11 +
+		pt=12;sw<-11;pt<-13 +
+		drop) + 
+
+	sw=5;(
+		pt=17;sw<-4;pt<-16 +
+		pt=17;sw<-4;pt<-16 +
+		pt=20;sw<-8;pt<-21 +
+		drop) + 
+
+	sw=4;(
+		pt=16;sw<-5;pt<-17 +
+		pt=16;sw<-5;pt<-17 +
+		pt=18;sw<-6;pt<-19 +
+		drop) + 
+
+	sw=7;(
+		pt=9;sw<-1;pt<-8 +
+		pt=33;sw<-6;pt<-32 +
+		pt=33;sw<-6;pt<-32 +
+		pt=33;sw<-6;pt<-32 +
+		pt=33;sw<-6;pt<-32 +
+		pt=34;sw<-18;pt<-35 +
+		pt=36;sw<-19;pt<-37 +
+		pt=38;sw<-9;pt<-39 +
+		drop) + 
+
+	sw=6;(
+		pt=5;sw<-0;pt<-4 +
+		pt=19;sw<-4;pt<-18 +
+		pt=22;sw<-17;pt<-23 +
+		pt=24;sw<-12;pt<-25 +
+		pt=32;sw<-7;pt<-33 +
+		pt=32;sw<-7;pt<-33 +
+		pt=32;sw<-7;pt<-33 +
+		pt=32;sw<-7;pt<-33 +
+		drop) + 
+
+	sw=9;(
+		pt=39;sw<-7;pt<-38 +
+		pt=41;sw<-8;pt<-40 +
+		drop) + 
+
+	sw=8;(
+		pt=21;sw<-5;pt<-20 +
+		pt=40;sw<-9;pt<-41 +
+		drop) + 
+	drop,
+
+(pol;dup;topo;dup)*;pol

@@ -1,0 +1,5 @@
+query = sw=38;(
+	pt=121;last(pt=134);pt<-bucket0 +
+	pt=134;last(pt=121);pt<-bucket1 +
+		drop),
+pol = 

@@ -1,0 +1,18 @@
+
+pA = sw=A;pt=1;pt<-2 + sw=A;pt=2;pt<-1, 
+pB = sw=B;pt=1;pt<-2 + sw=B;pt=2;pt<-1,
+
+query = sw=A;ever(start and sw=B);pt<-bucket_1 +
+	sw=B;ever(start and sw=A);pt<-bucket_2,
+
+pol = pA + pB,
+
+topo = 
+    sw=A;pt=2;sw<-B;pt<-1 + 
+    sw=B;pt=1;sw<-A;pt<-2,
+
+in = 
+    sw=A;pt=1 + 
+    sw=B;pt=2,
+
+(pol;dup;topo;dup)*;pol;(id + query)
