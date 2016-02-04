@@ -1,4 +1,4 @@
-MLFILES= src/common.ml src/input.ml src/input.mli src/ptmap.ml src/ptmap.mli src/automata.ml src/automata.mli src/profile.ml src/tkat.ml src/syntax.ml src/syntax.mli src/fdd.ml src/fdd.mli src/lexer.mll src/parser.mly \
+MLFILES= src/common.ml src/input.ml src/input.mli src/ptmap.ml src/ptmap.mli src/automata.ml src/automata.mli src/profile.ml src/profile.mli src/tkat.ml src/syntax.ml src/syntax.mli src/fdd.ml src/fdd.mli src/lexer.mll src/parser.mly \
 
 all: tkat.native
 

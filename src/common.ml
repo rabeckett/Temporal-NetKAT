@@ -6,6 +6,9 @@
 
 open Bag
 
+(* Helper functions for dealing with 
+  the standard library option type *)
+
 module Option = struct 
 
   let unwrap o = 
@@ -32,6 +35,9 @@ end
 let unreachable () = 
   failwith "unreachable"
 
+(* Convenience functions that help for 
+   debugging various collection types *)
+
 let add_sep sep acc = 
   if acc = "" then acc else sep ^ acc
 
@@ -51,11 +57,20 @@ let show_map fkey fval fold map =
   let aux k v acc = (fkey k) ^ "==>" ^ (fval v) ^ (add_sep "," acc) in 
   "{" ^ (fold aux map "") ^ "}"
 
-let _ = Random.init 17
+(* Set default seed value to make  
+   randomized tests deterministic *)
 
+let _ = Random.init 17
 
 let _hash x acc = 
   (acc lsr 5) - 1 + x
+
+(* Specialize Maps and Sets for commonly used 
+   int and string types. Provides more efficient 
+   comparison/hash/equality functions than using 
+   polymorphic compare. Since natural numbers are used
+   often, we use subtraction for comparison without 
+   worrying about overflow. *)
 
 module IntType = 
   struct 
