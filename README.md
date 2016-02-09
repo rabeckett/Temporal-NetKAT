@@ -1,5 +1,3 @@
-# Overview
-
 # Building
 There are two options for building the Temporal NetKAT compiler.
 
@@ -8,7 +6,7 @@ The easiest way to use the compiler is to download the Ubuntu virtualbox [image]
 
 If it asks for a username and password, the username is "ubuntu", and the password is "password". The compiler directory can be found in the /home/ubuntu/Desktop/Temporal-NetKAT directory.
 
-### Building From Source
+### From Source
 To build the code from source, you will need the [Ocaml](https://ocaml.org/) compiler (>= 4.02.1) and the ocamlfind and ppx_deriving utilities. The easiest way to install everything is via [opam](https://opam.ocaml.org/):
 
 ```
