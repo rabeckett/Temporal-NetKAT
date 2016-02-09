@@ -4,7 +4,7 @@
 There are two options for building the Temporal NetKAT compiler.
 
 ### Virtual Machine
-The easiest way to use the compiler is to download the Ubuntu virtualbox [image](www.cs.princeton.edu/~rbeckett/Temporal-NetKAT.ova) with the compiler already set up. 
+The easiest way to use the compiler is to download the Ubuntu virtualbox [image](http://www.cs.princeton.edu/~rbeckett/Temporal-NetKAT.ova) with the compiler already set up. 
 
 If it asks for a username and password, the username is "user", and the password is "password". The compiler directory can be found in the /home/ubuntu/Desktop/Temporal-NetKAT directory.
 
