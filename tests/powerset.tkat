@@ -1,4 +1,0 @@
-(sw=A;pt=1;dst=M;src<-Y;pt<-2);dup;(sw=A;pt=2;sw<-B;pt<-1);dup;(dst=N;pt<-2) + 
-(sw=A;pt=1;src=X;dst<-N;pt<-2);dup;(sw=A;pt=2;sw<-B;pt<-1);dup;(src=Y;pt<-2)
-
-

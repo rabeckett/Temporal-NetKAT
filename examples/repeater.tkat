@@ -5,10 +5,6 @@
 
 */
 
-
-in       =  sw=A;pt=1 + sw=B;pt=1,
-out      =  sw=A;pt=1 + sw=B;pt=1,
-
 pA       =  sw=A;pt=1;pt<-2 + sw=A;pt=2;pt<-1,
 pB       =  sw=B;pt=1;pt<-2 + sw=B;pt=2;pt<-1,
 pol      =  pA + pB,
@@ -17,4 +13,7 @@ tA       =  sw=A;pt=2;sw<-B;pt<-2,
 tB       =  sw=B;pt=2;sw<-A;pt<-2,
 topo     =  tA + tB,
 
-in; (pol;dup;topo;dup)*;pol; out
+in       = sw=A;pt=1 + sw=B;pt=2,
+out      = sw=A;pt=1 + sw=B;pt=2,
+
+in;(pol;dup;topo;dup)*;pol;out

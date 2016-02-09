@@ -1,0 +1,15 @@
+/*     
+	Send traffic along a simple path from A(1) to C(2)
+
+	---1 A 2-------2 B 1-------1 C 2-------
+
+*/
+
+pA = sw=A;pt=1;pt<-2,
+pB = sw=B;pt=1;pt<-2,
+pC = sw=C;pt=1;pt<-2,
+
+lA = sw=A;pt=2;sw<-B;pt<-1,
+lB = sw=B;pt=2;sw<-C;pt<-1,
+
+pA;dup;lA;dup;pB;dup;lB;dup;pC

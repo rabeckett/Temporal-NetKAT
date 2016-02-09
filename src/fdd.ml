@@ -255,15 +255,25 @@ let rec replace mem fv x y  =
 		| _ -> node mem fv2 (replace mem fv x l2) (replace mem fv x r2) )
 
 let write_rules oc table = 
-	let rec aux table = 
+	let rec aux max_len table = 
 		match table with 
 		| [] -> ()
 		| (tests, acts)::tl -> 
-		    Printf.fprintf oc "%s ==> %s\n" (show_list (show_field_val "=") tests) (show_updates acts);
-			aux tl in 
-	Printf.fprintf oc "----------------------------\n";
-	aux table;
-	Printf.fprintf oc "----------------------------"
+        let test_str = show_list (show_field_val "=") tests in
+        let act_str = show_updates acts in
+        let num_spaces = (max_len + 2) - (String.length test_str) in
+        let spaces = String.make num_spaces ' ' in
+ 		    Printf.fprintf oc "%s%s==>  %s\n" test_str spaces act_str;
+			aux max_len tl in 
+  let max_len = 
+    List.fold_left (fun acc (ts,_) -> 
+      let str = show_list (show_field_val "=") ts in
+      let len = String.length str in 
+      max len acc) 0 table in
+  let border = String.make (max_len*2 + 7) '=' in
+  Printf.fprintf oc "%s\n" border;
+	aux max_len table;
+  Printf.fprintf oc "%s\n" border
 
 let rec is_subset_of fvs1 fvs2 = 
 	match fvs1, fvs2 with 
@@ -423,10 +433,16 @@ let rules x =
 		loop := not last
 	done;
 	let rules = List.rev !rules in 
-	let rules_opt1 = reduce_drop_rules rules in
-	let rules_opt2 = reduce_state_tagging rules_opt1 in
-	let num_tags = StrSet.cardinal (get_all_states rules_opt2) in
-	(rules, rules_opt1, rules_opt2, num_tags)
+	let rules_o1 = reduce_drop_rules rules in
+  let rules_o2 = ref (reduce_state_tagging rules_o1) in
+  let o, n = ref (List.length rules_o1), ref (List.length !rules_o2) in 
+  while !o <> !n do 
+    o := !n; 
+    rules_o2 := reduce_state_tagging !rules_o2;
+    n := List.length !rules_o2
+  done;
+	let num_tags = StrSet.cardinal (get_all_states !rules_o2) in
+	(rules, rules_o1, !rules_o2, num_tags)
 
 
 module Test = struct

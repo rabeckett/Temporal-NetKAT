@@ -1,0 +1,23 @@
+/*
+  Simple repeater with monitoring to collect
+  packets traverse from A to B
+
+*/
+
+pA = sw=A;pt=1;pt<-2 + sw=A;pt=2;pt<-1, 
+pB = sw=B;pt=1;pt<-2 + sw=B;pt=2;pt<-1,
+
+query = 
+  (sw=A and last(sw=B));pt<-bucket_1 + 
+  (sw=B and last(sw=A));pt<-bucket_2,
+
+pol = pA + pB,
+
+topo = 
+    sw=A;pt=2;sw<-B;pt<-1 + 
+    sw=B;pt=1;sw<-A;pt<-2,
+
+in  = sw=A;pt=1 + sw=B;pt=2,
+out = sw=A;pt=1 + sw=B;pt=2,
+   
+in;(pol;dup;topo;dup)*;pol;out;(id + query)
