@@ -35,6 +35,20 @@ To compile a simple example policy, we can run the following command:
 
 `./tkat.native -in examples/path_monitor.tkat -out rules.txt`
 
+The result is a list of prioritized Openflow-like rules, that match and modify packet fields. Running `cat rules.txt` displays the resulting rules:
+
+```
+[sw=A,pt=1]          ==>  {{state<-4,pt<-2}}
+[sw=A,pt=2,state=4]  ==>  {{pt<-1}}
+[sw=A,pt=2,state=5]  ==>  {{pt<-bucket_1},{pt<-1}}
+[sw=B,pt=1]          ==>  {{state<-5,pt<-2}}
+[sw=B,pt=2,state=4]  ==>  {{pt<-bucket_2},{pt<-1}}
+[sw=B,pt=2,state=5]  ==>  {{pt<-1}}
+[]                   ==>  drop
+```
+
+For example, a packet entering the network at switch A and port 1 will be moved to port 2, and have its state (VLAN tag) updated to indicate it is in automaton state 4. If the packet ends up at port 2 on switch B, the packet will then be multicast with one copy of the packet going to port 1 on switch B, and the other going to a controller bucket for counting monitoring statistics.
+
 Other policy examples are contained in the `examples/` directory. Compiler usage information is listed below.
 
 Usage: tkat [options]
