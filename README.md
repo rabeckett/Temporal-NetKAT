@@ -5,7 +5,7 @@ The easiest way to use the compiler is to download the Ubuntu virtual [image](ht
 
 If it asks for a username and password, the username is "ubuntu", and the password is "password". The main compiler directory can be found in
 
-```/home/ubuntu/Desktop/Temporal-NetKAT```
+`/home/ubuntu/Desktop/Temporal-NetKAT`
 
 ### From Source
 To build the code from source, you will need the [Ocaml](https://ocaml.org/) compiler (>= 4.02.1) and the ocamlfind and ppx_deriving utilities. The easiest way to install everything is via [opam](https://opam.ocaml.org/):
@@ -31,16 +31,15 @@ To compile a simple example policy, we can run the following command:
 
 `./tkat.native -in examples/path_monitor.tkat -out rules.txt`
 
-Other policy examples are contained in the `examples/` directory.
+Other policy examples are contained in the `examples/` directory. Compiler usage information is listed below.
 
-```
 Usage: tkat [options]
   * \-in   Input file name (default stdin)
   * \-out   Output file name (default none)
   * \-test   Runs unit tests
   * \-stats   Output performance statistics as csv to stdout
   * \-help  Display this list of options
-```
+
 
 # Experiments
 
