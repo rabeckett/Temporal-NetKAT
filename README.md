@@ -73,7 +73,7 @@ After running the experiments, the generated Temporal NetKAT files (.tkat) can b
 
 To test the compiler quickly, you can compile just the stanford network with:
 
-`time make pldi-small`
+`make pldi-small`
 
 This should take no more than a minute or two. Here is the output on my machine:
 
