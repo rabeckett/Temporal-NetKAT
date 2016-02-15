@@ -62,4 +62,4 @@ This should take no more than a minute or two. To compile all policies for both 
 
 `make pldi`
 
-Compilation was tested on a MacBook Pro with an 8-core, 2.4 GHz Intel Core i7 processor with 8GB RAM and took just under 2 hours to complete. The output compiler performance statistics, Temporal NetKAT policy files, and generated graphs will be in the scripts/output directory.
+Compilation was tested on a MacBook Pro with an 8-core, 2.4 GHz Intel Core i7 processor with 8GB RAM and took just under 2 hours to complete. The output compiler performance statistics, Temporal NetKAT policy files, and generated graphs will be in the `scripts` directory.
