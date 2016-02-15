@@ -1,0 +1,40 @@
+/*     
+  Simple destination-based routing for 
+  switches A and B and C in a triangle
+
+ X ---1 A 2--------2 B 1--- Y
+         3           3
+           \        /
+            \      /
+              1 C 2
+                3
+                |
+                Z
+*/
+
+pA       =  sw=A;dst=X;pt<-1 +
+            sw=A;dst=Y;pt<-2 + 
+            sw=A;dst=Z;pt<-3,
+
+pB       =  sw=B;dst=X;pt<-2 +
+            sw=B;dst=Y;pt<-1 + 
+            sw=B;dst=Z;pt<-3,
+
+pC       =  sw=C;dst=X;pt<-1 +
+            sw=C;dst=Y;pt<-2 + 
+            sw=C;dst=Z;pt<-3,
+
+pol      =  pA + pB + pC,
+
+topo     =  sw=A;pt=2;sw<-B;pt<-2 +
+            sw=A;pt=3;sw<-C;pt<-1 +
+            sw=B;pt=2;sw<-A;pt<-2 +
+            sw=B;pt=3;sw<-C;pt<-2 +
+            sw=C;pt=1;sw<-A;pt<-3 +
+            sw=C;pt=2;sw<-B;pt<-3,
+
+/* filter for only those packets that end at C and go through A */
+   
+query    =  sw=C and dst=Z and last(sw=A),
+
+(pol;dup;topo;dup)*;pol; query
