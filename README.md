@@ -73,9 +73,29 @@ After running the experiments, the generated Temporal NetKAT files (.tkat) can b
 
 To test the compiler quickly, you can compile just the stanford network with:
 
-`make pldi-small`
+`time make pldi-small`
 
-This should take no more than a minute or two. To compile all policies for both the Stanford network and the Topology Zoo, run, and to reproduce the graphs used in the paper, run the command:
+This should take no more than a minute or two. Here is the output on my machine:
+
+```
+time make pldi-small
+python scripts/pldi-experiments.py stanford
+Generating .tkat files: /Users/ryanbeckett/Desktop/pldi/Temporal-NetKAT/scripts/stanford/stanford...
+Compiling stanford_global.tkat...
+Compiling stanford_global_congested.tkat...
+Compiling stanford_global_ddos.tkat...
+Compiling stanford_global_matrix.tkat...
+Compiling stanford_global_physical.tkat...
+Compiling stanford_global_simple.tkat...
+Compiling stanford_global_slice.tkat...
+
+real	1m23.652s
+user	1m22.406s
+sys	0m0.771s
+```
+
+
+ To compile all policies for both the Stanford network and the Topology Zoo, run, and to reproduce the graphs used in the paper, run the command:
 
 `make pldi`
 
