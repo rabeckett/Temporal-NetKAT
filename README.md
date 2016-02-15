@@ -31,11 +31,12 @@ To test that the compiler is working, you can run its unit and randomized tests 
 
 `./tkat.native -test`
 
+If there is no output for the tests, then run `make clean` followed by `make` to rebuild the executable.
 To compile a simple example policy, we can run the following command:
 
 `./tkat.native -in examples/path_monitor.tkat -out rules.txt`
 
-The result is a list of prioritized Openflow-like rules, that match and modify packet fields. Running `cat rules.txt` displays the resulting rules:
+An explanation of each example is given in the comments of the .tkat file. The result is a list of prioritized Openflow-like rules, that match and modify packet fields. Running `cat rules.txt` displays the resulting rules:
 
 ```
 [sw=A,pt=1]          ==>  {{state<-4,pt<-2}}
