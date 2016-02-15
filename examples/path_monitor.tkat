@@ -16,4 +16,4 @@ lB = sw=B;pt=2;sw<-C;pt<-1,
 query = 
   ever(start and sw=A); pt<-bucket_1,
 
-(pA;dup;lA;dup;pB;dup;lB;dup;pC); query
+pA;dup;lA;dup;pB;dup;lB;dup;pC; (id + query)

@@ -3,6 +3,9 @@
 
 	---1 A 2-------2 B 1-------1 C 2-------
 
+  Note: because we are interested in querying over all packet history, 
+  we include the NetKAT "dup" operator between each switch/topology action
+
 */
 
 pA = sw=A;pt=1;pt<-2,

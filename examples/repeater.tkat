@@ -13,7 +13,7 @@ tA       =  sw=A;pt=2;sw<-B;pt<-2,
 tB       =  sw=B;pt=2;sw<-A;pt<-2,
 topo     =  tA + tB,
 
-in       = sw=A;pt=1 + sw=B;pt=2,
-out      = sw=A;pt=1 + sw=B;pt=2,
+in       = sw=A;pt=1 + sw=B;pt=1,
+out      = sw=A;pt=1 + sw=B;pt=1,
 
 in;(pol;dup;topo;dup)*;pol;out
