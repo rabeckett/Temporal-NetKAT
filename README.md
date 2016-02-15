@@ -51,12 +51,14 @@ For example, a packet entering the network at switch A and port 1 will be moved 
 
 Other policy examples are contained in the `examples/` directory. Compiler usage information is listed below.
 
+```
 Usage: tkat [options]
-  * \-in   Input file name (default stdin)
-  * \-out   Output file name (default none)
-  * \-test   Runs unit tests
-  * \-stats   Output performance statistics as csv to stdout
-  * \-help  Display this list of options
+  -in     Input file name (default stdin)
+  -out    Output file name (default none)
+  -test   Runs unit tests
+  -stats  Output performance statistics as csv to stdout
+  -help   Display this list of options
+```
 
 # Experiments
 
