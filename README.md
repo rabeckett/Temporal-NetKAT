@@ -1,3 +1,7 @@
+# Temporal NetKAT
+
+This is the compiler for the Temporal NetKAT language described in the PLDI submission [here](http://www.cs.princeton.edu/~rbeckett/Temporal-NetKAT.pdf).
+
 # Building
 
 ### Virtual Machine
@@ -40,8 +44,15 @@ Usage: tkat [options]
   * \-stats   Output performance statistics as csv to stdout
   * \-help  Display this list of options
 
-
 # Experiments
+
+### Data
+
+All of the data for the performance benchmarks is contained in the `data/` directory. The topology zoo data can be found in the `data/zoo` directory. Each topology is encoded in the .gml graph language format. The stanford data can be found in the `data/stanford` directory. The `port_map.txt` and `backbone_topology.tf` files describe the backbone topology, while the .of files describe Openflow rules in a json format.
+
+After running the experiments, the generated Temporal NetKAT files (.tkat) can be found in the `scripts/zoo` and `scripts/stanford` directories.
+
+### Running
 
 To test the compiler quickly, you can compile just the stanford network with:
 

@@ -35,6 +35,6 @@ topo     =  sw=A;pt=2;sw<-B;pt<-2 +
 
 /* filter for only those packets that end at C and go through A */
    
-query    =  sw=C and dst=Z and last(sw=A),
+query    =  sw=C and dst=Z and ever(start and sw=A),
 
 (pol;dup;topo;dup)*;pol; query
