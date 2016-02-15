@@ -13,7 +13,8 @@ pldi-small:
 
 pldi:
 	python scripts/pldi-experiments.py all
-	python scripts/graph.py
+	python scripts/add_nodes.py
+	python scripts/graphs.py
 
 clean:
 	ocamlbuild -clean
