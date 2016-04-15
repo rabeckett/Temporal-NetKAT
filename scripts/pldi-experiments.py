@@ -375,9 +375,10 @@ def read_pol(fname):
     for rule in rules:
         in_ports = rule['in_ports']
         match = rule['ip_dst_match']
+        wc = rule['ip_dst_wc']
         out_ports = rule['out_ports']
         #wc = rule['ip_dst_wc']
-        ofrules.append( (in_ports, match, out_ports) )
+        ofrules.append( (in_ports, match, wc, out_ports) )
     f.close()
     return ofrules
  
@@ -441,14 +442,14 @@ def generate_stanford_pol(pols, topo, nodes, f, scenario):
         string = string + (sw + "=")
         string = string + ("\n\tsw=" + sw + ";(") 
         for rule in pol: 
-            (_, match, outs) = rule
+            (_, match, wc, outs) = rule
             if outs == []:
                 continue
             assigns = ""
             for out in outs:
                 tmp = "pt<-" + str(out)
                 assigns = tmp if assigns == "" else assigns + " + " + tmp
-            string = string + ("\n\t\tdst=" + str(match) + ";(" + assigns + ") + ")
+            string = string + ("\n\t\tdst=" + str(match) + "/" + str(32-int(wc)) + ";(" + assigns + ") + ")
         string = string + ("drop),\n\n")
     string = string + "pol= "
     acc = ""

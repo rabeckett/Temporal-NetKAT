@@ -75,11 +75,15 @@ let longer_prefix_of (x,xbits) (y,ybits) =
 
 let dot_regex = Str.regexp ("\\.")
 
+(* Convert prefix -- 10.0.0.1/16 into binary 32 bit form 
+   Since OCaml does not support unsiged integers, need to 
+   use the Int64 module when reading ints directly *)
 let get_prefix v o_pfx = 
 	let dots = Str.split dot_regex v in 
 	let v = 
 		match dots with 
-		| [hd] -> Int32.of_string hd 
+		| [hd] -> 
+				Int64.to_int32 (Int64.of_string hd)
 		| w::x::y::z::[] ->
 				let w = int_of_string w in 
 				let x = int_of_string x in 
@@ -182,7 +186,7 @@ let compare_val fv1 fv2 =
 			| true, false -> RightSubsumes 
 			| false, true -> LeftSubsumes 
 			| false, false -> 
-					let cmp = bits1 - bits2 in 
+					let cmp = bits2 - bits1 in 
 					if cmp < 0 then Less 
 					else if cmp > 0 then Greater 
 					else int_to_cmp (Int32.compare v1 v2)

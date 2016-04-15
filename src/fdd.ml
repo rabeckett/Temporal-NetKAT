@@ -101,7 +101,7 @@ let rec traverse_by_known_value fv x =
 			match compare_val fv fv' with 
 			| RightSubsumes -> traverse_by_known_value fv r
 			| Less | Greater -> traverse_by_known_value fv l 
-			| LeftSubsumes -> failwith "invariant violation"
+			| LeftSubsumes -> x
 			| Equal -> failwith "invariant violation"
 		else x
 
