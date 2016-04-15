@@ -13,8 +13,9 @@ val compile: t -> Syntax.updates Fdd.fdd
 val minimize: t -> t
 (** Heuristic automata minimization *)
 
-val instrument: Syntax.tterm -> t * int
-(** Compile and instrument a policy with query monitoring  *)
+val instrument: bool -> Syntax.tterm -> t * int
+(** Compile and instrument a policy with query monitoring. 
+    Optionally enable/disable optimizations *)
 
 val print: t -> unit 
 (** Print the automata in human-readable form *)

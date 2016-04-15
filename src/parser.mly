@@ -44,11 +44,11 @@ let rec substitute_all term =
 %}
 
 
-%token <string> ID, IP, NUM
+%token <string> ID
 
 %token SWITCH PORT SOURCE DEST BUCKET
 %token ZERO ONE PLUS SEMI AND OR NEG STAR WLAST LAST EVER ALWAYS START DUP
-%token SEMI LPAREN RPAREN ASSIGN EQUALS NEQUALS
+%token SEMI LPAREN RPAREN ASSIGN EQUALS NEQUALS SLASH
 %token COMMA EOF
 
 %start top
@@ -67,9 +67,8 @@ test:
     | START                     { `Term `Tstart }
     | ZERO                      { `Term `Tzero }
     | ONE                       { `Term `Tone }
-    | field EQUALS ID           { `Term (`Ttest (to_field_val ($1, $3))) }
-    | field EQUALS IP           { `Term (`Ttest (to_field_val ($1, $3))) }
-    | field EQUALS NUM          { `Term (`Ttest (to_field_val ($1, $3))) }
+    | field EQUALS ID           { `Term (`Ttest (to_field_val ($1, $3, None))) }
+    | field EQUALS ID SLASH ID  { `Term (`Ttest (to_field_val ($1, $3, Some $5))) }
     | test AND test             { `Term (`Tand ($1, $3)) }
     | test OR test              { `Term (`Tor ($1, $3)) }
     | NEG test                  { `Term (`Tneg $2) }
@@ -81,9 +80,8 @@ test:
 ;
 
 term:
-    | field ASSIGN ID           { `Term (`Tassign (to_field_val ($1,$3))) }
-    | field ASSIGN IP           { `Term (`Tassign (to_field_val ($1,$3))) }
-    | field ASSIGN NUM          { `Term (`Tassign (to_field_val ($1,$3))) }
+    | field ASSIGN ID           { `Term (`Tassign (to_field_val ($1, $3, None))) }
+    | field ASSIGN ID SLASH ID  { `Term (`Tassign (to_field_val ($1, $3, Some $5))) }
     | term SEMI term            { `Term (`Tseq ($1, $3)) }
     | term PLUS term            { `Term (`Tplus ($1, $3)) }
     | term STAR                 { `Term (`Tstar $1) }

@@ -1,27 +1,32 @@
-(*******************************************************************)
-(*                                                                 *)
-(*                 Temporal NetKAT syntax terms        			   *)
-(*                                                                 *)
-(*******************************************************************)
-
 open Common
+open Int32
 
 type field_val = 
 	| Sw of string 
-	| Pt of string 
-	| Src of string 
-	| Dst of string 
-	| State of string
+	| Pt of int 
+	| Src of int32 * int
+	| Dst of int32 * int
+	| State of int
 	| Placeholder of int
 	[@@deriving eq, ord]
 (** Field and corresponding value *)
 
-val to_field_val: string * string -> field_val
+type value_comparison =
+	| Equal
+	| Less
+	| Greater
+	| LeftSubsumes
+	| RightSubsumes
+(* comparison result for values.
+   generalized to handle ip prefixes *)
+
+val get_value: field_val -> string
+val to_field_val: string * string * string option -> field_val
 val show_field_val: string -> field_val -> string
 val show_field: field_val -> string 
 val show_val: field_val -> string
 val compare_field: field_val -> field_val -> int 
-val compare_val: field_val -> field_val -> int
+val compare_val: field_val -> field_val -> value_comparison
 val hash_fv: field_val -> int
 (** Helper functions for hashing/printing/comparing *)
 
@@ -113,4 +118,9 @@ val map_updates: (update -> update) -> updates -> updates
 module Arbitrary: sig 
 	val gen_term_local: unit -> term
 	val gen_tterm: unit -> tterm
+end
+
+(* Unit tests *)
+module Test: sig 
+	val unit_tests: unit -> unit
 end

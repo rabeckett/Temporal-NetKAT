@@ -14,7 +14,9 @@ TRAFFIC_MATRIX = 6
 
 direct = os.path.dirname(os.path.realpath(__file__))
 
-cmd = [direct + "/../tkat.native", "-stats", "-in"]
+cmd = [direct + "/../tkat.native", "-no-opt", "-stats", "-in"]
+cmd_opt = [direct + "/../tkat.native", "-stats", "-in"]
+
 
 header = "Name[$], KAT size[$], Temp size[$], Num Queries[$], Rules[$], Rules opt1[$], Rules opt2[$], Tags[$], Time(Total)[$], Time(Temporal Automaton)[$], Time (Policy Automaton)[$], Time (Determinization)[$], Time (Minimize)[$], Time (Intersection)[$], Time (Extraction)[$], Time (Rule Gen)[$], "
 
@@ -128,7 +130,7 @@ def traffic_matrix(x, ports, f):
     return i
 
 
-def compile_all(directory, out):
+def compile_all(directory, out, cmd):
     files = os.listdir(directory)
     files = sorted([f for f in files if is_tkat(f)])
     of = open(out, 'w')
@@ -234,7 +236,13 @@ def generate_zoo_policy(nodes, edges, is_local, f, scenario):
     f.write("pol = ")
     for nsrc in nodes: 
         for ntgt in nodes:
-            if nsrc != ntgt:
+            if nsrc == ntgt:
+                tmp = "dst=" + str(dst_map[ntgt]) + ";pt<-200 +\n\t\t" # special port for end host
+                if nsrc in per_sw.keys():
+                    per_sw[nsrc] = per_sw[nsrc] + tmp
+                else:
+                    per_sw[nsrc] = tmp
+            else:
                 dst = dst_map[ntgt]
                 try:
                     spath = nx.shortest_path(g, nsrc, ntgt)
@@ -320,7 +328,7 @@ def zoo_create_tkat():
         f.close()
 
 def zoo_compile_all():
-    compile_all(zoo_dir, direct + "/output/zoo.csv")
+    compile_all(zoo_dir, direct + "/output/zoo.csv", cmd_opt)
 
 
 # ===========================================================
@@ -362,17 +370,36 @@ def read_pol(fname):
     f = open(fname)
     parsed = json.loads(f.read())
     rules = parsed['rules']
-    acc = []
+    ofrules = []
+    base_dsts = []
     for rule in rules:
         in_ports = rule['in_ports']
         match = rule['ip_dst_match']
         out_ports = rule['out_ports']
-        acc.append( (in_ports, match, out_ports) )
+        #wc = rule['ip_dst_wc']
+        ofrules.append( (in_ports, match, out_ports) )
     f.close()
-    return acc
-    
+    return ofrules
+ 
+"""   
+def expand_wildcards(pols):
+    others = 0
+    base_dsts = []
+    for (sw, pol) in pols:
+        for (_,match,wc,_) in pol:
+            if int(wc) == 0:
+                base_dsts.append(match)
+            else:
+                others = others + 1
+    print "there are " + str(len(base_dsts)) + " dsts"
+    print "there are " + str(others) + " wildcards"
+    return pols
+"""
 
 def generate_stanford_pol(pols, topo, nodes, f, scenario):
+    # update policy to expand wildcards
+    #pols = expand_wildcards(pols)
+
     if scenario == NO_QUERY:
         no_query(f)
 
@@ -473,7 +500,8 @@ def stanford_create_tkat():
     f.close()
 
 def stanford_compile_all():
-    compile_all(stanford_dir, direct + "/output/stanford.csv")
+    compile_all(stanford_dir, direct + "/output/stanford-unopt.csv", cmd)
+    compile_all(stanford_dir, direct + "/output/stanford.csv", cmd_opt)
 
 def make_dir(folder):
     if not os.path.exists(folder):

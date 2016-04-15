@@ -12,9 +12,7 @@
 
 }
 
-let num = ['0'-'9']+ 
-let ip = num '.' num '.' num '.' num
-let id = ['a'-'z' 'A'-'Z' '_'] ['a'-'z' 'A'-'Z' '_' '0'-'9']*
+let id = ['a'-'z' 'A'-'Z' '_' '.' '0'-'9']+
 
 rule token = parse
   | "/*"         { comments 0 lexbuf }
@@ -34,8 +32,7 @@ rule token = parse
   | "drop"       { ZERO }
   | "dup"        { DUP }
   | id as text   { ID text }
-  | ip as text   { IP text }
-  | num as text  { NUM text }
+  | "/"          { SLASH }
   | ","          { COMMA }
   | "+"          { PLUS }
   | ";"          { SEMI }
