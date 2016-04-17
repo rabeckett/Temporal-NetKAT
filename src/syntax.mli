@@ -3,7 +3,7 @@ open Int32
 
 type field_val = 
 	| Sw of string 
-	| Pt of int 
+	| Pt of string 
 	| Src of int32 * int
 	| Dst of int32 * int
 	| State of int

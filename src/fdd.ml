@@ -10,7 +10,7 @@ open Syntax
 open Hashcons 
 
 
-let cache_size = 10000
+let cache_size = 1000
 
 type 'a fdd = ('a node) hash_consed
 and 'a node = 

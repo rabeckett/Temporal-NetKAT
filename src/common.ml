@@ -120,7 +120,8 @@ module StrType =
       let h = ref 0 in 
       for i = 0 to String.length s - 1 do 
         h := (!h lsr 5) - 1 + (Char.code s.[i])
-      done; !h
+      done; 
+      !h
   end
 
 module NatSet = struct 
@@ -131,6 +132,7 @@ module NatSet = struct
 end
 
 module StrSet = Set.Make(StrType)
+module StrMap = Map.Make(StrType)
 module NatMap = Map.Make(NatType)
 
 

@@ -10,7 +10,7 @@ exception NoSuchField
    If you change this order, change the compare_field function *)
 type field_val =
 	| Sw of string
-	| Pt of int
+	| Pt of string
 	| Src of int32 * int
 	| Dst of int32 * int
 	| State of int
@@ -48,79 +48,84 @@ type term =
 	| Neg of term
 	[@@deriving eq, ord]
 
-let unique_tag =
-    let r = ref 0 in
-    (fun () -> incr r; !r)
+
+let tag = ref 0
+
+(* let sw_map = ref (R.create ())
+let pt_map = ref (R.create ()) *)
+
+let unique_tag () =
+    incr tag; !tag
 
 let int_from_dotted_ip (w,x,y,z) =
-	let in_range i = (i >= 0 && i < 256) in 
-	if not (in_range w && in_range x && in_range y && in_range z) then 
+	let in_range i = (i >= 0 && i < 256) in
+	if not (in_range w && in_range x && in_range y && in_range z) then
 		failwith "ip out of range 0-255"
  	else
-		let a = Int32.shift_left (Int32.of_int w) 24 in 
-		let b = Int32.shift_left (Int32.of_int x) 16 in 
+		let a = Int32.shift_left (Int32.of_int w) 24 in
+		let b = Int32.shift_left (Int32.of_int x) 16 in
 		let c = Int32.shift_left (Int32.of_int y) 8 in
 		Int32.logor a (Int32.logor b (Int32.logor c (Int32.of_int z)))
 
 let get_first_n_bits x bits =
-	if bits = 0 then Int32.zero 
+	if bits = 0 then Int32.zero
 	else
-		let shift = 32 - bits in 
-		let i = Int32.shift_right_logical x shift in 
+		let shift = 32 - bits in
+		let i = Int32.shift_right_logical x shift in
 		Int32.shift_left i shift
 
-let longer_prefix_of (x,xbits) (y,ybits) = 
-	(xbits >= ybits) && 
+let longer_prefix_of (x,xbits) (y,ybits) =
+	(xbits >= ybits) &&
 	(compare (get_first_n_bits x ybits) (get_first_n_bits y ybits) = 0)
 
 let dot_regex = Str.regexp ("\\.")
 
-(* Convert prefix -- 10.0.0.1/16 into binary 32 bit form 
-   Since OCaml does not support unsiged integers, need to 
+(* Convert prefix -- 10.0.0.1/16 into binary 32 bit form
+   Since OCaml does not support unsiged integers, need to
    use the Int64 module when reading ints directly *)
-let get_prefix v o_pfx = 
-	let dots = Str.split dot_regex v in 
-	let v = 
-		match dots with 
-		| [hd] -> 
+let get_prefix v o_pfx =
+	let dots = Str.split dot_regex v in
+	let v =
+		match dots with
+		| [hd] ->
 				Int64.to_int32 (Int64.of_string hd)
 		| w::x::y::z::[] ->
-				let w = int_of_string w in 
-				let x = int_of_string x in 
-				let y = int_of_string y in 
-				let z = int_of_string z in 
+				let w = int_of_string w in
+				let x = int_of_string x in
+				let y = int_of_string y in
+				let z = int_of_string z in
 				int_from_dotted_ip (w, x, y, z)
-		| _ -> failwith ("invalid value: " ^ v) in  		
-	match o_pfx with 
+		| _ -> failwith ("invalid value: " ^ v) in
+	match o_pfx with
 	| None -> (v, 32)
 	| Some p ->
-	    let i = int_of_string p in 
+	    let i = int_of_string p in
 		  if (i < 0 || i > 32) then failwith "invalid prefix"
-		  else (get_first_n_bits v i, i) 
+		  else (get_first_n_bits v i, i)
 
 let to_field_val (f,v,o_pfx) =
 	match f with
 	| "state" -> State (int_of_string v)
 	| "sw" -> Sw v
-	| "pt" -> Pt (int_of_string v)
-	| "src" -> 
-			let (i,bits) = get_prefix v o_pfx in 
+	| "pt" -> Pt v
+	| "src" ->
+			let (i,bits) = get_prefix v o_pfx in
 			Src (i,bits)
 	| "dst" ->
-			let (i,bits) = get_prefix v o_pfx in 
+			let (i,bits) = get_prefix v o_pfx in
 			Dst (i,bits)
 	| _ -> raise NoSuchField
 
-let string_of_prefix i bits = 
-  let x = Int32.to_string i in 
-  if bits = 32 then x 
+let string_of_prefix i bits =
+  let x = Int32.to_string i in
+  if bits = 32 then x
   else x ^ "/" ^ (string_of_int bits)
 
 let show_field_val sep fv =
 	match fv with
 	| State v -> "state" ^ sep ^ (string_of_int v)
 	| Sw v -> "sw" ^ sep ^ v
-	| Pt v -> "pt" ^ sep ^ (string_of_int v)
+	| Pt v -> "pt" ^ sep ^ v
 	| Src (v,bits) -> "src" ^ sep ^ (string_of_prefix v bits)
 	| Dst (v,bits) -> "dst" ^ sep ^ (string_of_prefix v bits)
 	| Placeholder i -> "$" ^ (string_of_int i)
@@ -136,8 +141,8 @@ let show_field fv =
 
 let show_val fv =
 	match fv with
-	| Sw v -> v
-	| Pt v | State v -> (string_of_int v)
+	| Sw v | Pt v -> v
+	| State v -> (string_of_int v)
 	| Src (v,bits) | Dst (v,bits) -> (string_of_prefix v bits)
 	| Placeholder v -> "$"
 
@@ -152,9 +157,8 @@ let field_int fv =
 
 let get_value fv =
 	match fv with
-	| Sw v -> v
-	| State v 
-	| Pt v -> string_of_int v
+	| Sw v | Pt v -> v
+	| State v -> string_of_int v
 	| Src (v,bits) | Dst (v,bits) -> string_of_prefix v bits
 	| Placeholder _ -> failwith "unreachable"
 
@@ -168,41 +172,40 @@ type value_comparison =
 	| LeftSubsumes
 	| RightSubsumes
 
-let int_to_cmp i = 
+let int_to_cmp i =
 	if i < 0 then Less
     else if i > 0 then Greater
-    else Equal 
+    else Equal
 
 let compare_val fv1 fv2 =
 	match fv1, fv2 with
-	| State v1, State v2
-	| Pt v1, Pt v2 -> int_to_cmp (v1 - v2)
+	| State v1, State v2 -> int_to_cmp (v1 - v2)
 	| Dst (v1,bits1), Dst (v2,bits2)
 	| Src (v1,bits1), Src (v2,bits2) -> begin
-			let l_subsumed = longer_prefix_of (v1,bits1) (v2,bits2) in 
-			let r_subsumed = longer_prefix_of (v2,bits2) (v1,bits1) in 
-			match l_subsumed, r_subsumed with 
-			| true, true -> Equal 
-			| true, false -> RightSubsumes 
-			| false, true -> LeftSubsumes 
-			| false, false -> 
-					let cmp = bits2 - bits1 in 
-					if cmp < 0 then Less 
-					else if cmp > 0 then Greater 
+			let l_subsumed = longer_prefix_of (v1,bits1) (v2,bits2) in
+			let r_subsumed = longer_prefix_of (v2,bits2) (v1,bits1) in
+			match l_subsumed, r_subsumed with
+			| true, true -> Equal
+			| true, false -> RightSubsumes
+			| false, true -> LeftSubsumes
+			| false, false ->
+					let cmp = bits2 - bits1 in
+					if cmp < 0 then Less
+					else if cmp > 0 then Greater
 					else int_to_cmp (Int32.compare v1 v2)
 		end
 	| Placeholder i1, Placeholder i2 -> Equal
-	| Sw v1, Sw v2 -> int_to_cmp (StrType.compare v1 v2)
+	| Sw v1, Sw v2 | Pt v1, Pt v2 -> int_to_cmp (StrType.compare v1 v2)
 	| _, _ -> failwith "different fields in compare_val"
 
 let pairing i j =
-	let x = i + j in 
+	let x = i + j in
 	((x * (x+1)) / 2) + j
 
 let hash_fv fv =
 	match fv with
 	| Sw v -> StrType.hash v
-	| Pt v -> pairing 1 v
+	| Pt v -> StrType.hash v
 	| Dst (v,bits) -> pairing 2 (pairing (Int32.to_int v) bits)
 	| Src (v,bits) -> pairing 3 (pairing (Int32.to_int v) bits)
 	| State v -> pairing 4 v
@@ -317,9 +320,9 @@ let rec size_tterm tterm =
 	| Tzero | Tone | Tdup | Tstart -> 1
 	| Ttest _ | Tassign _ -> 1
 	| Tneg t | Tstar t | Tlast t | Twlast t | Tever t | Talways t ->
-		1 + (size_tterm t)
+			1 + (size_tterm t)
 	| Tand (l,r) | Tor (l,r) | Tseq (l,r) | Tplus (l,r) ->
-		1 + (size_tterm l) + (size_tterm r)
+			1 + (size_tterm l) + (size_tterm r)
 
 let size_breakdown tterm =
 	let term, qrys = extract_queries tterm in
@@ -381,7 +384,7 @@ let rec merge_right_all u1 u2 =
 	Update.fold (fun fv acc -> merge_right acc fv) u2 u1
 
 
-(* Generate random local (no dup) and 
+(* Generate random local (no dup) and
    global terms up to a given depth  *)
 
 module Arbitrary = struct
@@ -393,9 +396,9 @@ module Arbitrary = struct
 		| 0 -> Sw "A"
 		| 1 -> Sw "B"
 		| 2 -> Sw "C"
-		| 3 -> Pt 1
-		| 4 -> Pt 2
-		| 5 -> Pt 3
+		| 3 -> Pt "1"
+		| 4 -> Pt "2"
+		| 5 -> Pt "3"
 		| 6 -> Dst (Int32.of_int 1, 32)
 		| 7 -> Dst (Int32.of_int 2, 32)
 		| _ -> Dst (Int32.of_int 3, 32)
@@ -451,61 +454,61 @@ end
 (* Unit tests for ip prefix operations
    over 32 bit integers *)
 
-module Test = struct 
+module Test = struct
 
-	let should_fail f v = 
-		try 
+	let should_fail f v =
+		try
 			ignore (f v);
 			assert false
-		with 
-			| Assert_failure _ -> assert false 
+		with
+			| Assert_failure _ -> assert false
 			| _ -> assert true
-	
-	let should_succeed f v = 
-		(try ignore (f v) with _ -> assert false); 
-		assert true 
+
+	let should_succeed f v =
+		(try ignore (f v) with _ -> assert false);
+		assert true
 
 	let test_parse_ip1 () = should_succeed to_field_val ("src", "10.0.0.1", None)
 	let test_parse_ip2 () = should_fail to_field_val ("src", "-1.0.0.1", None)
 	let test_parse_ip3 () = should_fail to_field_val ("src", "256.0.0.1", None)
 	let test_parse_ip4 () = should_fail to_field_val ("src", "1.0.0.1.2", None)
 	let test_parse_ip5 () = should_fail to_field_val ("src", "1.0.0", None)
-	
-	let test_check_value1 () = 
-		for i = 0 to 255 do 
+
+	let test_check_value1 () =
+		for i = 0 to 255 do
 			let x = int_from_dotted_ip (0, 0, 0, i) in
-			let y = int_from_dotted_ip (0, 0, i, 0) in 
-			let z = int_from_dotted_ip (0, i, 0, 0) in 
+			let y = int_from_dotted_ip (0, 0, i, 0) in
+			let z = int_from_dotted_ip (0, i, 0, 0) in
 			assert (Int32.compare x (Int32.of_int i) = 0);
 			assert (Int32.compare x y <= 0);
 			assert (Int32.compare y z <= 0)
 	  done
 
-	let test_check_value2 () = 
+	let test_check_value2 () =
 	  let x = int_from_dotted_ip (255, 255, 255, 255) in
 		assert (Int32.compare x (Int32.of_int (-1)) = 0)
 
-  let test_ip_comparison1 () = 
-		let a = to_field_val ("dst", "0.0.0.0", None) in 
-		let b = to_field_val ("dst", "0.0.0.0", Some "32") in 
+  let test_ip_comparison1 () =
+		let a = to_field_val ("dst", "0.0.0.0", None) in
+		let b = to_field_val ("dst", "0.0.0.0", Some "32") in
 		assert (compare_val a b = Equal)
 
-  let test_ip_comparison2 () = 
-		let a = to_field_val ("dst", "0.0.0.0", None) in 
-		let b = to_field_val ("dst", "0.0.0.1", None) in 
-		let c = to_field_val ("dst", "0.0.1.0", None) in 
-		let d = to_field_val ("dst", "0.1.0.0", None) in 
-		let e = to_field_val ("dst", "1.0.0.0", None) in 
+  let test_ip_comparison2 () =
+		let a = to_field_val ("dst", "0.0.0.0", None) in
+		let b = to_field_val ("dst", "0.0.0.1", None) in
+		let c = to_field_val ("dst", "0.0.1.0", None) in
+		let d = to_field_val ("dst", "0.1.0.0", None) in
+		let e = to_field_val ("dst", "1.0.0.0", None) in
 		assert (compare_val a b = Less);
 		assert (compare_val b c = Less);
 		assert (compare_val c d = Less);
 		assert (compare_val d e = Less)
 
-  let test_ip_comparison3 () = 
-		let a = to_field_val ("dst", "1.2.3.0", Some "24") in 
-		let b = to_field_val ("dst", "1.2.3.4", Some "24") in 
-		let c = to_field_val ("dst", "1.2.3.4", Some "32") in 
-		let d = to_field_val ("dst", "1.2.3.4", Some "16") in 
+  let test_ip_comparison3 () =
+		let a = to_field_val ("dst", "1.2.3.0", Some "24") in
+		let b = to_field_val ("dst", "1.2.3.4", Some "24") in
+		let c = to_field_val ("dst", "1.2.3.4", Some "32") in
+		let d = to_field_val ("dst", "1.2.3.4", Some "16") in
 		assert (compare_val a b = Equal);
 		assert (compare_val a c = LeftSubsumes);
 		assert (compare_val c a = RightSubsumes);
@@ -525,14 +528,14 @@ module Test = struct
 		(test_ip_comparison3, "simple ip subsumption");
 	]
 
-	let unit_tests () = 
+	let unit_tests () =
 		print_endline "Testing Prefixes...";
-		let rec aux ts = 
-			match ts with 
-			| [] -> () 
+		let rec aux ts =
+			match ts with
+			| [] -> ()
 			| (t,descr)::tl -> begin
 					(try t () with Assert_failure _ -> print_endline ("  failed: " ^ descr));
-					aux tl 
+					aux tl
 				end
 		in aux tests
 

@@ -1,5 +1,5 @@
 open Common
- 
+
 
 let test = ref false
 let stats = ref false
@@ -20,8 +20,8 @@ let get_time tbl str =
   try string_of_float (Hashtbl.find tbl str)
   with _ -> "null"
 
-let run_unit_tests () = 
-  begin 
+let run_unit_tests () =
+  begin
     Syntax.Test.unit_tests ();
     Fdd.Test.unit_tests ();
     Automata.Test.unit_tests ();
