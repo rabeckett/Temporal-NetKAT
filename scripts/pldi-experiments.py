@@ -441,6 +441,7 @@ def generate_stanford_pol(pols, topo, nodes, f, scenario):
     for sw, pol in pols:
         string = string + (sw + "=")
         string = string + ("\n\tsw=" + sw + ";(") 
+        parens = 0
         for rule in pol: 
             (_, match, wc, outs) = rule
             if outs == []:
@@ -449,8 +450,10 @@ def generate_stanford_pol(pols, topo, nodes, f, scenario):
             for out in outs:
                 tmp = "pt<-" + str(out)
                 assigns = tmp if assigns == "" else assigns + " + " + tmp
-            string = string + ("\n\t\tdst=" + str(match) + "/" + str(32-int(wc)) + ";(" + assigns + ") + ")
-        string = string + ("drop),\n\n")
+            ip = str(match) + "/" + str(32-int(wc))
+            string = string + ("\n\t\tdst=" + ip + ";(" + assigns + ") + " + "-dst=" + ip + ";(")
+            parens = parens + 1
+        string = string + ("drop)" + parens*")" + ",\n\n")
     string = string + "pol= "
     acc = ""
     for sw, _ in pols:

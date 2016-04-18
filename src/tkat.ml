@@ -53,6 +53,7 @@ let _ =
       (if is_local then
         begin
           let fdd = Profile.profile "[Extraction]" Fdd.create trm in
+          Printf.printf "Final fdd:\n%s\n" (Fdd.show_fdd Syntax.show_updates fdd);
           let (rs, rs_opt1, rs_opt2, ntags) = Profile.profile "[Rule Generation]" Fdd.rules fdd in
           rules := rs_opt2;
           num_rules := List.length rs;

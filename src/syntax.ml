@@ -87,8 +87,7 @@ let get_prefix v o_pfx =
 	let dots = Str.split dot_regex v in
 	let v =
 		match dots with
-		| [hd] ->
-				Int64.to_int32 (Int64.of_string hd)
+		| [hd] -> Int64.to_int32 (Int64.of_string hd)
 		| w::x::y::z::[] ->
 				let w = int_of_string w in
 				let x = int_of_string x in
@@ -118,8 +117,7 @@ let to_field_val (f,v,o_pfx) =
 
 let string_of_prefix i bits =
   let x = Int32.to_string i in
-  if bits = 32 then x
-  else x ^ "/" ^ (string_of_int bits)
+  x ^ "/" ^ (string_of_int bits)
 
 let show_field_val sep fv =
 	match fv with

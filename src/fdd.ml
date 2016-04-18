@@ -214,7 +214,6 @@ let rec restrict d fv =
 		  | _ -> node updates_mem fv' (restrict l fv) (restrict r fv)
 
 let rec restrict_neg d fv = 
-	(* Printf.printf "    restrict_neg [%s] %s\n" (show_fdd show_updates d) (show_field_val "=" fv); *)
 	match peek d with 
 	| Leaf acts -> node updates_mem fv (value updates_mem acts) bot
 	| Node(fv',l,r) ->
@@ -230,7 +229,7 @@ let rec restrict_neg d fv =
 					 	end
 				 	| Less -> if l = bot then d else node updates_mem fv d bot
 				 	| Greater -> node updates_mem fv' (restrict_neg l fv) r 
-				 	| LeftSubsumes -> restrict_neg l fv (* eventually will introduce test *)
+				 	| LeftSubsumes -> restrict_neg l fv (* eventually it will introduce a test *)
 				 	| RightSubsumes -> 
 				 			if l = bot then d
 				 		  else if r = bot then d 
@@ -305,6 +304,7 @@ let write_rules oc table =
 		| [] -> ()
 		| (tests, acts)::tl -> 
         let test_str = show_list (show_field_val "=") tests in
+        Printf.printf "rule: %s\n" test_str;
         let act_str = show_updates acts in
         let num_spaces = (max_len + 2) - (String.length test_str) in
         let spaces = String.make num_spaces ' ' in
@@ -447,8 +447,8 @@ let rec remove_redundant_drops x acc =
  			| (fvs2,us2)::tl' ->
  				let is_drop = Updates.is_empty us1 in
  				let is_subset = is_subset_of (List.rev fvs1) (List.rev fvs2) in 
- 				if is_drop && (not is_subset) then 
- 					remove_redundant_drops tl acc
+ 				if is_drop && (not is_subset) 
+ 				then remove_redundant_drops tl acc
  				else remove_redundant_drops tl ((fvs1,us1)::acc)
  		end
 
@@ -460,16 +460,70 @@ let reduce_drop_rules rules =
  			  remove_redundant_drops rules []
  		  else List.rev rules
 
+let show_fvs fvs = show_list (show_field_val "=") fvs
+
+let subsumes_value fv1 fv2 = 
+	match compare_val fv1 fv2 with 
+	| Less | Greater | RightSubsumes -> false
+	| Equal | LeftSubsumes -> true 
+
+let overlaps_value fv1 fv2 = 
+	match compare_val fv1 fv2 with 
+	| Less | Greater -> false
+	| Equal | LeftSubsumes | RightSubsumes -> true 
+
+let is_applicable_to fvs1 fvs2 = 
+	List.for_all (fun fv -> 
+		List.for_all (fun fv' -> 
+			compare_field fv fv' <> 0 || subsumes_value fv' fv) fvs1) fvs2
+
+let do_overlap fvs1 fvs2 = 
+	List.for_all (fun fv -> 
+		List.for_all (fun fv' -> 
+			compare_field fv fv' <> 0 || overlaps_value fv fv') fvs1) fvs2	
+
+let rec next_applicable_rule rule rules =
+	let (fvs1,_) = rule in
+	match rules with
+	| [] -> None 
+	| ((fvs2,_) as hd)::tl -> 
+		if do_overlap fvs2 fvs1 
+		then 
+			(if is_applicable_to fvs2 fvs1 then Some hd else None)
+		else next_applicable_rule rule tl
+
+let rec fall_through_elim rules = 
+	match rules with 
+	| [] -> []
+	| ((fvs1,us1) as hd)::tl -> 
+		let tl = fall_through_elim tl in
+		match next_applicable_rule (fvs1,us1) tl with 
+		| None -> hd::tl
+		| Some (fvs2,us2) ->
+			if Updates.equal us1 us2 then tl else hd::tl
+
+let rec remove_without_state rules = 
+	let is_state fv = 
+		match fv with 
+		| State _ -> true 
+		| _ -> false in
+	match rules with 
+	| [] -> [] 
+	| ((fvs,us) as hd)::tl -> 
+		let tl' = remove_without_state tl in
+		if (fvs <> []) && not (List.exists is_state fvs) then tl' else hd :: tl'
+
 let rules x =  
 	let rec aux fdd tests = 
 		match peek fdd with 
 		| Leaf v -> (bot, (tests,v), true)
-		| Node(b,l,r) -> 
-			(match peek r with 
-			 | Leaf v -> (l, (b::tests,v), false)
-			 | _ ->   
-				let r', rule, _ = aux r (b::tests) in 
-				(node updates_mem b l r', rule, false) ) in 
+		| Node(b,l,r) -> begin
+			  match peek r with 
+			  | Leaf v -> (l, (b::tests,v), false)
+			  | _ ->   
+				  let r', rule, _ = aux r (b::tests) in 
+				  (node updates_mem b l r', rule, false)
+		  end in 
 	let fdd = ref x in 
 	let rules = ref [] in 
 	let loop = ref true in
@@ -480,8 +534,8 @@ let rules x =
 		loop := not last
 	done;
 	let dummy_state = State (-1) in
-	let rules = List.rev !rules in 
-	let rules_o1 = reduce_drop_rules rules in
+	let rules = List.rev !rules in
+	let rules_o1 = fall_through_elim (remove_without_state rules) in
   let rules_o2 = ref (reduce_tagging dummy_state rules_o1) in
   let o, n = ref (List.length rules_o1), ref (List.length !rules_o2) in 
   while !o <> !n do 
